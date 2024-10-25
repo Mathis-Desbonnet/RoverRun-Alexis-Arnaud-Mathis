@@ -47,6 +47,8 @@
 *.cmd
 .tmp_versions/
 modules.order
+
+cmake-build-debug/
 Module.symvers
 Mkfile.old
 dkms.conf
