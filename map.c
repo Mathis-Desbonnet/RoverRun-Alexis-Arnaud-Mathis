@@ -252,7 +252,7 @@ t_map createTrainingMap()
     return createMapFromFile("..\\maps\\training.map");
 }
 
-void displayMap(t_map map)
+void displayMap(t_map map, Robot robot)
 {
     /** the rules for display are :
      * display all soils with 3x3 characters
@@ -292,6 +292,9 @@ void displayMap(t_map map)
                     default:
                         strcpy(c, "???");
                         break;
+                }
+                if (rep == 1 && robot.localisation.pos.x == j && robot.localisation.pos.y == i) {
+                    c[1] = robot.printChar;
                 }
                 printf("%s", c);
             }
