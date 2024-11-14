@@ -13,4 +13,11 @@ add_executable(RoverRun main.c
         map.h
         moves.h
         queue.h
-        stack.h)
+        stack.h
+        Tree.c
+        Tree.h
+        Node.c
+        Node.h
+        Robot.c
+        Robot.h
+)

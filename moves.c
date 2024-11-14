@@ -7,22 +7,9 @@
 /* prototypes of local functions */
 /* local functions are used only in this file, as helper functions */
 
-/**
- * @brief Function to rotate the robot according to a move and its actual orientation
- * @param ori : the actual orientation of the robot
- * @param move : the move to do
- * @return the new orientation of the robot
- */
-t_orientation rotate(t_orientation, t_move );
-
-/**
- * @brief function to translate the robot according to a move and its actual position
- * @param loc : the actual localisation of the robot
- * @param move : the move to do
- * @return the new localisation of the robot
- */
-t_localisation translate(t_localisation , t_move);
-
+t_move generateMove() {
+    return rand()%7;
+}
 /* definition of local functions */
 
 t_orientation rotate(t_orientation ori, t_move move)
@@ -40,6 +27,7 @@ t_orientation rotate(t_orientation ori, t_move move)
             rst=2;
             break;
         default:
+            rst=0;
             break;
     }
     return (ori+rst)%4;
@@ -152,4 +140,15 @@ void updateLocalisation(t_localisation *p_loc, t_move m)
 {
     *p_loc = move(*p_loc, m);
     return;
+}
+
+t_move* createTabWithoutCurrentValue(t_move* possibilities, int currentValueIndex, int numberPossibilities) {
+    t_move* newTab = (t_move*) malloc(sizeof(t_move)*(numberPossibilities-1));
+    for (int i = 0; i<currentValueIndex; i++) {
+        newTab[i] = possibilities[i];
+    }
+    for (int i = currentValueIndex; i<numberPossibilities-1; i++) {
+        newTab[i] = possibilities[i+1];
+    }
+    return newTab;
 }

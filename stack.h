@@ -5,6 +5,9 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include <stdio.h>
+#include "moves.h"
+
 /**
  * @brief Structure for the stack of integers
  */
@@ -44,5 +47,8 @@ int pop(t_stack *);
  */
 int top(t_stack);
 
+void printStack(t_stack);
+
+void copyStack(t_stack src, t_stack* dest);
 
 #endif //STACK_H

@@ -5,6 +5,8 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "Robot.h"
+
 #define COST_UNDEF 65535
 /**
  * @brief Enum for the possible soils of the map
@@ -53,6 +55,6 @@ t_map createMapFromFile(char *);
  * @brief display the map with characters
  * @param map : the map to display
  */
-void displayMap(t_map);
+void displayMap(t_map, Robot);
 
 #endif //MAP_H

@@ -61,3 +61,20 @@ int top(t_stack stack)
     assert(stack.nbElts > 0);
     return stack.values[stack.nbElts - 1];
 }
+
+void printStack(t_stack stack) {
+    pop(&stack);// First element is where we spawn, so we have not 'choice' for this one.
+    while (stack.nbElts != 0) {
+        printf("%s  --", getMoveAsString(pop(&stack)));
+    }
+    printf("\n");
+}
+
+void copyStack(t_stack src, t_stack* dest) {
+    while (dest->nbElts != 0) {
+        pop(dest);
+    }
+    while (src.nbElts != 0) {
+        push(dest, pop(&src));
+    }
+}
