@@ -99,8 +99,6 @@ int main(int argc, char* args[]) {
     printStack(minWayStack);
     t_move nextMove;
 
-    const Uint8* keyState = SDL_GetKeyboardState(NULL);
-
     //SDL LOOP
     while (running) {
         SDL_Event event;
