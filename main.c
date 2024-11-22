@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
+#include "Graphics.h"
 #include <stdlib.h>
 #include <time.h>
 #include "map.h"
@@ -21,22 +20,38 @@ int main(int argc, char* args[]) {
 #else
     map = createMapFromFile("../maps/example1.map");
 #endif
-    //LOAD SDL
-    int running = 1;
 
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0)
-    {
-        SDL_Log( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+    //INIT SDL
+    if (!initSDL()) {
+        printf("Something went wrong....");
+        return 0;
     }
 
+    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%d ", map.soils[i][j]);
+        }
+        printf("\n");
+    }
+    // printf the costs, aligned left 5 digits
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%-5d ", map.costs[i][j]);
+        }
+        printf("\n");
+    }
+
+    //CREATE WINDOW AND RENDERER
     SDL_Window* window;
     SDL_Renderer* renderer;
-    SDL_CreateWindowAndRenderer("New Window", 1920, 1080, SDL_WINDOW_FULLSCREEN, &window, &renderer);
-
-    IMG_Init(IMG_INIT_PNG);
+    SDL_CreateWindowAndRenderer("New Window", 1920, 1080, SDL_WINDOW_MAXIMIZED, &window, &renderer);
 
     //LOAD PNG TO SURFACE
-
     SDL_Surface* plainsSurface = IMG_Load("../src/img/plains.png");
     SDL_Surface* ergSurface = IMG_Load("../src/img/erg.png");
     SDL_Surface* regSurface = IMG_Load("../src/img/reg.png");
@@ -87,12 +102,22 @@ int main(int argc, char* args[]) {
     SDL_DestroySurface(roverDownRightSurface);
     SDL_DestroySurface(roverDownLeftSurface);
 
-    Robot* robot = createRobot(3, 5);
+    int x,y;
+    do {
+        x = rand()%map.x_max;
+        y = rand()%map.y_max;
+    } while (map.soils[y][x] == 4 | map.soils[y][x] == 0);
+
+    Robot* robot = createRobot(x, y);
+    robot->localisation.ori = rand()%4;
+
+    printf("x :%d, y :%d, ori : %d\n", x, y, robot->localisation.ori);
+    printf("0 -> NORD\n 1-> EST\n 2-> SUD\n 3 -> OUEST\n");
 
     int min = 10000;
     t_stack minWayStack = createStack(7);
     t_stack currentStack = createStack(7);
-    Tree* wayTree = createTree(map.costs[robot->localisation.pos.x][robot->localisation.pos.y], robot->localisation, map);
+    Tree* wayTree = createTree(map.costs[robot->localisation.pos.y][robot->localisation.pos.x], robot->localisation, map);
     addAllWayToTree(wayTree->head, robot->localisation, map, wayTree->head->possibilities, &min, &minWayStack, &currentStack);
     printTree(*wayTree, min);
     printf("%d\n", min);
@@ -100,6 +125,7 @@ int main(int argc, char* args[]) {
     t_move nextMove;
 
     //SDL LOOP
+    int running = 1;
     while (running) {
         SDL_Event event;
         if (SDL_PollEvent(&event) > 0) {
@@ -161,32 +187,15 @@ int main(int argc, char* args[]) {
         SDL_RenderPresent(renderer);
         if (minWayStack.nbElts > 0) {
             nextMove = pop(&minWayStack);
-            robot->localisation = move(robot->localisation, nextMove);
+            if (nextMove != NO_MOVE) {
+                robot->localisation = move(robot->localisation, nextMove);
+            }
+            SDL_Delay(1000);
         }
-        SDL_Delay(1000);
     }
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
-
-    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
-    for (int i = 0; i < map.y_max; i++)
-    {
-        for (int j = 0; j < map.x_max; j++)
-        {
-            printf("%d ", map.soils[i][j]);
-        }
-        printf("\n");
-    }
-    // printf the costs, aligned left 5 digits
-    for (int i = 0; i < map.y_max; i++)
-    {
-        for (int j = 0; j < map.x_max; j++)
-        {
-            printf("%-5d ", map.costs[i][j]);
-        }
-        printf("\n");
-    }
 
     return 0;
 }
