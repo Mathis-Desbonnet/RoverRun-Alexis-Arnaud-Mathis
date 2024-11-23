@@ -4,9 +4,9 @@
 
 #include "Tree.h"
 
-Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map) {
+Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map, t_move movementDisponibility[7]) {
     Tree* newTree = (Tree*) malloc(sizeof(Tree));
-    newTree->head = createNode(valueRobotPos, NULL, -1);
+    newTree->head = createNode(valueRobotPos, NULL, -1, movementDisponibility);
     newTree->head->totalValue = valueRobotPos;
     newTree->head->min = 10000;
     return newTree;
@@ -47,9 +47,9 @@ int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *poss
                 newLoc.pos.x = translate(robotPos, possibilities[i]).pos.x;
                 newLoc.pos.y = translate(robotPos, possibilities[i]).pos.y;
                 newLoc.ori = robotPos.ori;
-                newNode = createNode(map.costs[newLoc.pos.y][newLoc.pos.x], move, possibilities[i]);
+                newNode = createNode(map.costs[newLoc.pos.y][newLoc.pos.x], move, possibilities[i], NULL);
             } else {
-                newNode = createNode(head->value, move, possibilities[i]);
+                newNode = createNode(head->value, move, possibilities[i], NULL);
                 newLoc.pos.x = robotPos.pos.x;
                 newLoc.pos.y = robotPos.pos.y;
                 newLoc.ori = rotate(robotPos.ori, possibilities[i]);

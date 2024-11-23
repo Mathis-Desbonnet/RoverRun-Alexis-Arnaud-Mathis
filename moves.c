@@ -7,8 +7,15 @@
 /* prototypes of local functions */
 /* local functions are used only in this file, as helper functions */
 
-t_move generateMove() {
-    return rand()%7;
+t_move generateMove(t_move movementDisponibility[7]) {
+    t_move move;
+    do {
+        move = rand()%7;
+    } while(movementDisponibility[move] == 0);
+
+    movementDisponibility[move] -= 1;
+    printf("%d %d %d %d %d %d %d \n", movementDisponibility[0], movementDisponibility[1], movementDisponibility[2], movementDisponibility[3], movementDisponibility[4], movementDisponibility[5], movementDisponibility[6]);
+    return move;
 }
 /* definition of local functions */
 

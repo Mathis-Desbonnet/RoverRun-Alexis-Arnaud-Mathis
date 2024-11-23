@@ -19,6 +19,6 @@ typedef struct node {
     int choice;
 } Node;
 
-Node* createNode(int valueRobotPos, t_move* possibilities, int choice);
+Node* createNode(int valueRobotPos, t_move* possibilities, int choice, t_move movementDisponibility[7]);
 
 #endif //ROVERRUN_NODE_H

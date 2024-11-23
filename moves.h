@@ -7,6 +7,7 @@
 
 #include "loc.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Array of strings for the possible moves of the robot
@@ -28,7 +29,7 @@ typedef enum e_move
     U_TURN
 } t_move;
 
-t_move generateMove();
+t_move generateMove(t_move movementDisponibility[7]);
 
 /**
  * @brief function to get a t_move as a string

@@ -21,6 +21,7 @@ int main(int argc, char* args[]) {
 #else
     map = createMapFromFile("../maps/example1.map");
 #endif
+
     //LOAD SDL
     int running = 1;
 
@@ -90,16 +91,15 @@ int main(int argc, char* args[]) {
     Robot* robot = createRobot(3, 5);
 
     int min = 10000;
+    t_move movementDisponibility[7] = {22, 15, 7, 7, 21, 21, 7};
     t_stack minWayStack = createStack(7);
     t_stack currentStack = createStack(7);
-    Tree* wayTree = createTree(map.costs[robot->localisation.pos.x][robot->localisation.pos.y], robot->localisation, map);
+    Tree* wayTree = createTree(map.costs[robot->localisation.pos.x][robot->localisation.pos.y], robot->localisation, map, movementDisponibility);
     addAllWayToTree(wayTree->head, robot->localisation, map, wayTree->head->possibilities, &min, &minWayStack, &currentStack);
     printTree(*wayTree, min);
     printf("%d\n", min);
     printStack(minWayStack);
     t_move nextMove;
-
-    const Uint8* keyState = SDL_GetKeyboardState(NULL);
 
     //SDL LOOP
     while (running) {
