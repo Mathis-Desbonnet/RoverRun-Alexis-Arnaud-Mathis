@@ -14,6 +14,10 @@ int initSDL() {
         printf("SDL IMAGE could not initialize!");
         return 0;
     }
+    if (TTF_Init() == -1) {
+        printf("TTF_Init: %s\n", SDL_GetError());
+        return 0;
+    }
     return 1;
 }
 int loadBasicRoadSurface(SDL_Surface** basicRoadSurface) {

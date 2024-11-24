@@ -7,11 +7,12 @@
 
 #include "loc.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Array of strings for the possible moves of the robot
  */
-static char _moves[9][9] = {"F 10m", "F 20m", "F 30m", "B 10m", "T left", "T right", "U-turn", "NO MOVE"};
+static char _moves[9][13] = {"F 10m", "F 20m", "F 30m", "B 10m", "T left", "T right", "U-turn", "NO MOVE", "LOST SIGNAL"};
 
 /**
  * @brief Enum for the possible moves of the robot
@@ -26,10 +27,11 @@ typedef enum e_move
     T_LEFT, // Turn left (+90°)
     T_RIGHT, // Turn right (-90°)
     U_TURN,
-    NO_MOVE
+    NO_MOVE,
+    LOST_SIGNAL
 } t_move;
 
-t_move generateMove();
+t_move generateMove(int moveProba[7]);
 
 /**
  * @brief function to get a t_move as a string

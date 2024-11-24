@@ -4,3 +4,6 @@
 [submodule "vendors/SDL"]
 	path = vendors/SDL
 	url = https://github.com/libsdl-org/SDL
+[submodule "vendors/SDL_ttf"]
+	path = vendors/SDL_ttf
+	url = https://github.com/libsdl-org/SDL_ttf

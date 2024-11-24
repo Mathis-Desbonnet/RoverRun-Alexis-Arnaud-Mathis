@@ -7,8 +7,20 @@
 /* prototypes of local functions */
 /* local functions are used only in this file, as helper functions */
 
-t_move generateMove() {
-    return rand()%7;
+t_move generateMove(int moveProba[7]) {
+    t_move move;
+    do {
+        for (int i = 0; i<7; i++) {
+            printf(" %d --", moveProba[i]);
+        }
+        printf("\n");
+        move = rand()%7;
+    } while (moveProba[move] == 0);
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    moveProba[move] -= 1;
+    return move;
 }
 /* definition of local functions */
 

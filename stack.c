@@ -63,7 +63,6 @@ int top(t_stack stack)
 }
 
 void printStack(t_stack stack) {
-    pop(&stack);// First element is where we spawn, so we have not 'choice' for this one.
     while (stack.nbElts != 0) {
         printf("%s  --", getMoveAsString(pop(&stack)));
     }
