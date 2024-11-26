@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include "loc.h"
+#include "stack.h"
 
 typedef struct robot {
     t_localisation localisation;

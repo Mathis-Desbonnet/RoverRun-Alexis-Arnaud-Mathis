@@ -121,6 +121,24 @@ void removeFalseCrevasses(t_map map)
         {
             over = 1;
         }
+        printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+        for (int i = 0; i < map.y_max; i++)
+        {
+            for (int j = 0; j < map.x_max; j++)
+            {
+                printf("%d ", map.soils[i][j]);
+            }
+            printf("\n");
+        }
+        // printf the costs, aligned left 5 digits
+        for (int i = 0; i < map.y_max; i++)
+        {
+            for (int j = 0; j < map.x_max; j++)
+            {
+                printf("%-5d ", map.costs[i][j]);
+            }
+            printf("\n");
+        }
     }
 }
 
@@ -136,8 +154,28 @@ void calculateCosts(t_map map)
     {
         // dequeue the position
         t_position pos = dequeue(&queue);
+        int self_cost;
         // get its self cost
-        int self_cost = _soil_cost[map.soils[pos.y][pos.x]];
+        if (map.soils[pos.y][pos.x] >= 5) {
+            switch (map.soils[pos.y][pos.x]) {
+                case 5:
+                    self_cost = _soil_cost[map.soils[pos.y+1][pos.x]];
+                    break;
+                case 6:
+                    self_cost = _soil_cost[map.soils[pos.y][pos.x+1]];
+                    break;
+                case 7:
+                    self_cost = _soil_cost[map.soils[pos.y][pos.x-1]];
+                    break;
+                case 8:
+                    self_cost = _soil_cost[map.soils[pos.y-1][pos.x]];
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            self_cost = _soil_cost[map.soils[pos.y][pos.x]];
+        }
         // get ts neighbours
         t_position lp, rp, up, dp;
         lp = LEFT(pos);
@@ -241,8 +279,44 @@ t_map createMapFromFile(char *filename)
         }
 
     }
+    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%d ", map.soils[i][j]);
+        }
+        printf("\n");
+    }
+    // printf the costs, aligned left 5 digits
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%-5d ", map.costs[i][j]);
+        }
+        printf("\n");
+    }
     fclose(file);
     calculateCosts(map);
+    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%d ", map.soils[i][j]);
+        }
+        printf("\n");
+    }
+    // printf the costs, aligned left 5 digits
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%-5d ", map.costs[i][j]);
+        }
+        printf("\n");
+    }
     removeFalseCrevasses(map);
     return map;
 }

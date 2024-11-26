@@ -15,9 +15,9 @@ typedef struct tree {
     Node* head;
 } Tree;
 
-Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map);
-void printTree(Tree tree, int min);
+Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map, int moveProba[7]);
+void printTree(Tree* tree, int min);
 void printTreeRecur(Node *node, int min);
-int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *possibilities, int *min, t_stack *minStack, t_stack *currentStack);
+int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *possibilities, int *min, t_stack *minStack, t_stack *currentStack, int numberOfMovement);
 
 #endif //ROVERRUN_TREE_H

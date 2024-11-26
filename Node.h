@@ -14,11 +14,11 @@ typedef struct node {
     int numberChilds;
     int totalValue;
     struct node **avails;
-    t_move possibilities[5];
+    t_move possibilities[9];
     int min;
     int choice;
 } Node;
 
-Node* createNode(int valueRobotPos, t_move* possibilities, int choice);
+Node* createNode(int valueRobotPos, t_move* possibilities, int choice, int moveProba[7]);
 
 #endif //ROVERRUN_NODE_H

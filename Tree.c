@@ -4,28 +4,34 @@
 
 #include "Tree.h"
 
-Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map) {
+Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map, int moveProba[7]) {
     Tree* newTree = (Tree*) malloc(sizeof(Tree));
-    newTree->head = createNode(valueRobotPos, NULL, -1);
+    newTree->head = createNode(valueRobotPos, NULL, -1, moveProba);
     newTree->head->totalValue = valueRobotPos;
     newTree->head->min = 10000;
     return newTree;
 }
 
-void printTree(Tree tree, int min) {
-    printTreeRecur(tree.head, min);
+void printTree(Tree* tree, int min) {
+    if (tree != NULL) {
+        printTreeRecur(tree->head, min);
+    } else {
+        printf("WARNING : TREE IS NULL !\n");
+    }
 }
 
-int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *possibilities, int *min, t_stack *minStack, t_stack *currentStack) {
+int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *possibilities, int *min, t_stack *minStack, t_stack *currentStack, int numberOfMovement) {
     if (currentStack->nbElts == head->depth) {
         push(currentStack, head->choice);
     } else {
         while (currentStack->nbElts > head->depth) {
-            pop(currentStack);
+            if (currentStack->nbElts > 0) {
+                pop(currentStack);
+            }
         }
         push(currentStack, head->choice);
     }
-    if ((head->depth == 3 || head->value == 0) && head->totalValue < *min) {
+    if ((head->depth == numberOfMovement || head->value == 0) && head->totalValue < *min) {
         *min = head->totalValue;
         copyStack(*currentStack, minStack);
     }
@@ -36,30 +42,41 @@ int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *poss
         head->min = *min;
         return 1;
     }
-    if (head->totalValue < 9999 && head->totalValue <= *min && head->depth < 3) {
+    if (head->choice == LOST_SIGNAL) {
+        return 1;
+    }
+    if (head->totalValue < 9999 && head->totalValue <= *min && head->depth < numberOfMovement) {
         Node* newNode;
         t_localisation newLoc;
         t_move *move;
         for (int i = 0; i<head->numberChilds; i++) { //Create a new Node for every child
             move = createTabWithoutCurrentValue(possibilities, i, head->numberChilds);
             newNode = NULL;
-            if (possibilities[i]<4 && isValidLocalisation(translate(robotPos, possibilities[i]).pos, map.x_max, map.y_max)) {
-                newLoc.pos.x = translate(robotPos, possibilities[i]).pos.x;
-                newLoc.pos.y = translate(robotPos, possibilities[i]).pos.y;
-                newLoc.ori = robotPos.ori;
-                newNode = createNode(map.costs[newLoc.pos.y][newLoc.pos.x], move, possibilities[i]);
+            if (isValidLocalisation((translate(robotPos, possibilities[i])).pos, map.x_max, map.y_max)) {
+                if (possibilities[i]<4) {
+                    newLoc.pos.x = translate(robotPos, possibilities[i]).pos.x;
+                    newLoc.pos.y = translate(robotPos, possibilities[i]).pos.y;
+                    newLoc.ori = robotPos.ori;
+                    newNode = createNode(map.costs[newLoc.pos.y][newLoc.pos.x], move, possibilities[i], NULL);
+                } else {
+                    newNode = createNode(head->value, move, possibilities[i], NULL);
+                    newLoc.pos.x = robotPos.pos.x;
+                    newLoc.pos.y = robotPos.pos.y;
+                    newLoc.ori = rotate(robotPos.ori, possibilities[i]);
+                }
             } else {
-                newNode = createNode(head->value, move, possibilities[i]);
+                //printf("HORS MAP ! \t");
+                newNode = createNode(head->value, move, LOST_SIGNAL, NULL);
                 newLoc.pos.x = robotPos.pos.x;
                 newLoc.pos.y = robotPos.pos.y;
-                newLoc.ori = rotate(robotPos.ori, possibilities[i]);
+                //printf("depth : %d, x : %d, y : %d, badNewX : %d, badNewY : %d\n", head->depth+1, newLoc.pos.x, newLoc.pos.y, (translate(robotPos, possibilities[i])).pos.x, (translate(robotPos, possibilities[i])).pos.y);
             }
             newNode->depth = head->depth+1;
             newNode->numberChilds = head->numberChilds-1;
             newNode->totalValue = head->totalValue+newNode->value;
             newNode->min = *min;
             head->avails[i] = newNode;
-            addAllWayToTree(newNode, newLoc, map, move, min, minStack, currentStack);
+            addAllWayToTree(newNode, newLoc, map, move, min, minStack, currentStack, numberOfMovement);
         }
     }
 }
@@ -86,6 +103,12 @@ void printTreeRecur(Node *node, int min) {
     }
     if (node->value == 0) {
         printf(" BASE FOUND - STOPS HERE");
+    }
+    if (node->choice == LOST_SIGNAL) {
+        printf(" WE LOST CONTACT... HOUSTON WE HAVE A PROBLEM ! - STOPS HERE");
+    }
+    if (node->depth > 0) {
+        printf(" -> %s ", getMoveAsString(node->choice));
     }
     printf("\n");
     for (int i = 0; i<node->numberChilds; i++) {
