@@ -1,23 +1,19 @@
 # RoverRun
- 
-To install and run the project :
+### By Arnaud Chadal, Alexis Demont and Mathis Desbonnet
 
-- Clone the main branch
-- Execute `git submodule init`
-- Execute `git submodule update`
-- Reload CMake Project
-- Build the app
-- Then you can run it !
--------------------------------------------------------
-**WARNING ON WINDOWS ! (or if you get the 0xC0000135 error)**
+---------------------
+Welcome your new little Rover.
 
-You'll find on the folders `cmake-build-debug/vendors/SDL` and `cmake-build-debug/vendors/SDL_image` files names respectively `SDL3.dll` and `SDL3_image.dll`.
+He is currently lost onto Mars and really need to go back to the base!
 
-**IT IS VERY IMPORTANT TO COPY THEM INTO THE FOLDER** `cmake-build-debug/`.
+You can just upload one program, and, surprise, we made it for you.
 
-If it still doesn't work, you may have to install the .net framework.
+RoverRun is a program in C that will try to find the best way to go to the base using trees and stack.
 
-Then you can re-build the app and run it safely!
+The program use a graphic libraries made for C called SDL. To install correctly and run the program, please visit [README-Set_up.md](README-Set_up.md).
 
---------------------------------------------------------
-Have fun!
+All the info that you need (like the way choose, the next movement...) is print in the console.
+
+The program will try is best, however, there can be some road that contain hard rocks, hill or dune that may modify the rover path....... Eventually, that can lead to his death.......
+
+### Have Fun!

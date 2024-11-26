@@ -12,14 +12,6 @@ Tree* createTree(int valueRobotPos, int moveProba[7]) {
     return newTree;
 }
 
-void printTree(Tree* tree, int min) {
-    if (tree != NULL) {
-        printTreeRecur(tree->head, min);
-    } else {
-        printf("WARNING : TREE IS NULL !\n");
-    }
-}
-
 int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *possibilities, int *min, t_stack *minStack, t_stack *currentStack, int numberOfMovement) {
     if (currentStack->nbElts == head->depth) {
         push(currentStack, head->choice);

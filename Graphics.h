@@ -88,6 +88,6 @@ int stopConditions(t_map *map, int noMoveCounter, const Robot *robot);
 @brief: Captures and interprets user inputs.
 @params: The robot, the nextMove, didAMovement for letting the game processing the movements, and event for capturing.
 */
-int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *event);
+int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *event, t_map map);
 
 #endif //ROVERRUN_GRAPHICS_H

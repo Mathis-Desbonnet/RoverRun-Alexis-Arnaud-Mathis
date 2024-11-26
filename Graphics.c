@@ -262,10 +262,14 @@ int stopConditions(t_map *map, int noMoveCounter, const Robot *robot) {
         printf("YOU WIN !\n");
         running = 0;
     }
+    if ((*map).soils[robot->localisation.pos.y][robot->localisation.pos.x] == 4) {
+        printf("YOU DIED !\n");
+        running = 0;
+    }
     return running;
 }
 
-int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *event) {
+int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *event, t_map map) {
     int running;
     if (SDL_PollEvent(event) > 0) {
         switch ((*event).type) {
@@ -276,7 +280,7 @@ int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *e
                 if ((*event).key.key == SDLK_RIGHT) {
                     if (didAMovement) {
                         didAMovement = 0;
-                        if ((*nextMove) != NO_MOVE) {
+                        if ((*nextMove) != NO_MOVE && isValidLocalisation((translate(robot->localisation, *nextMove)).pos, map.x_max, map.y_max)) {
                             robot->localisation = move(robot->localisation, (*nextMove));
                         }
                     }

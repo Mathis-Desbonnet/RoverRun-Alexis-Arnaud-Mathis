@@ -155,7 +155,7 @@ int main(int argc, char* args[]) {
     while (running) {
         movementFunction(&map, robot, beginARound, &noMoveCounter, &minWayStack, &nextMove, &didAMovement);
         SDL_Event event;
-        didAMovement = keyboardEvent(robot, &nextMove, didAMovement, &event);
+        didAMovement = keyboardEvent(robot, &nextMove, didAMovement, &event, map);
         roverTexture = renderTexture(&map, renderer, &rectPosition, plaineTexture, ergTexture, regTexture, chasmTexture,
                                      baseTexture,
                                      roverUpRightTexture, roverUpLeftTexture, roverDownRightTexture,
