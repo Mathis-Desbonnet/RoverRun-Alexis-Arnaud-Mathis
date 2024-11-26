@@ -9,36 +9,6 @@ Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map, int move
     newTree->head = createNode(valueRobotPos, NULL, -1, moveProba);
     newTree->head->totalValue = valueRobotPos;
     newTree->head->min = 10000;
-    if (map.soils[robotPos.pos.y][robotPos.pos.x] == 2%10) {
-        printf("Movement before modif with erg : ");
-        for (int i = 0; i<newTree->head->numberChilds; i++) {
-            printf(" %s ->", getMoveAsString(newTree->head->possibilities[i]));
-            switch (newTree->head->possibilities[i]) {
-                case F_10:
-                    newTree->head->possibilities[i] = NO_MOVE;
-                    break;
-                case F_20:
-                    newTree->head->possibilities[i] = F_10;
-                    break;
-                case F_30:
-                    newTree->head->possibilities[i] = F_20;
-                    break;
-                case B_10:
-                    newTree->head->possibilities[i] = NO_MOVE;
-                    break;
-                case T_LEFT:
-                    newTree->head->possibilities[i] = NO_MOVE;
-                    break;
-                case T_RIGHT:
-                    newTree->head->possibilities[i] = NO_MOVE;
-                    break;
-                case U_TURN:
-                    newTree->head->possibilities[i] = rand()%2 + 4;
-                    break;
-            }
-        }
-        printf("\n");
-    }
     return newTree;
 }
 

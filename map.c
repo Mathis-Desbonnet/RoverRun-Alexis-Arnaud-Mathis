@@ -154,8 +154,28 @@ void calculateCosts(t_map map)
     {
         // dequeue the position
         t_position pos = dequeue(&queue);
+        int self_cost;
         // get its self cost
-        int self_cost = _soil_cost[map.soils[pos.y][pos.x]];
+        if (map.soils[pos.y][pos.x] >= 5) {
+            switch (map.soils[pos.y][pos.x]) {
+                case 5:
+                    self_cost = _soil_cost[map.soils[pos.y+1][pos.x]];
+                    break;
+                case 6:
+                    self_cost = _soil_cost[map.soils[pos.y][pos.x+1]];
+                    break;
+                case 7:
+                    self_cost = _soil_cost[map.soils[pos.y][pos.x-1]];
+                    break;
+                case 8:
+                    self_cost = _soil_cost[map.soils[pos.y-1][pos.x]];
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            self_cost = _soil_cost[map.soils[pos.y][pos.x]];
+        }
         // get ts neighbours
         t_position lp, rp, up, dp;
         lp = LEFT(pos);

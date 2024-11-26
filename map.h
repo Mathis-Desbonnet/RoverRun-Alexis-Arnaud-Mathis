@@ -17,13 +17,17 @@ typedef enum e_soil
     PLAIN,
     ERG,
     REG,
-    CREVASSE
+    CREVASSE,
+    HILL_DOWN_LEFT,
+    HILL_DOWN_RIGHT,
+    HILL_UP_RIGHT,
+    HILL_UP_LEFT,
 } t_soil;
 
 /**
  * @brief Array of costs for the soils
  */
-static const int _soil_cost[5] = {0, 1, 2, 4, 10000};
+static const int _soil_cost[9] = {0, 1, 2, 4, 10000, 3, 3, 3, 3};
 
 /**
  * @brief Structure for the map
