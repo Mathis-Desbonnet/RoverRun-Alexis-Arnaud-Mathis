@@ -20,6 +20,8 @@ int initSDL() {
 //    }
     return 1;
 }
+
+
 int loadBasicRoadSurface(SDL_Surface** basicRoadSurface) {
     basicRoadSurface[0] = IMG_Load("../src/img/plains.png");
     assert(basicRoadSurface[0] == NULL);
@@ -33,6 +35,7 @@ int loadBasicRoadSurface(SDL_Surface** basicRoadSurface) {
     assert(basicRoadSurface[4] == NULL);
     return 1;
 }
+
 
 void
 createTextureImage(SDL_Renderer *renderer, SDL_Surface *plainsSurface, SDL_Surface *ergSurface, SDL_Surface *regSurface,
@@ -84,6 +87,7 @@ createTextureImage(SDL_Renderer *renderer, SDL_Surface *plainsSurface, SDL_Surfa
     SDL_DestroySurface(hillUpRightSurface);
 }
 
+
 void freeMemory(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *plaineTexture, SDL_Texture *ergTexture,
                 SDL_Texture *regTexture, SDL_Texture *chasmTexture, SDL_Texture *baseTexture,
                 SDL_Texture *roverUpRightTexture, SDL_Texture *roverUpLeftTexture, SDL_Texture *roverDownRightTexture,
@@ -108,6 +112,7 @@ void freeMemory(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *plaineT
     SDL_DestroyTexture(roverDownLeftTexture);
     SDL_DestroyTexture(roverTexture);
 }
+
 
 SDL_Texture *renderTexture(t_map *map, SDL_Renderer *renderer, SDL_FRect *rectPosition, SDL_Texture *plaineTexture,
                            SDL_Texture *ergTexture, SDL_Texture *regTexture, SDL_Texture *chasmTexture,
