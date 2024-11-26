@@ -4,20 +4,12 @@
 
 #include "Tree.h"
 
-Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map, int moveProba[7]) {
+Tree* createTree(int valueRobotPos, int moveProba[7]) {
     Tree* newTree = (Tree*) malloc(sizeof(Tree));
     newTree->head = createNode(valueRobotPos, NULL, -1, moveProba);
     newTree->head->totalValue = valueRobotPos;
     newTree->head->min = 10000;
     return newTree;
-}
-
-void printTree(Tree* tree, int min) {
-    if (tree != NULL) {
-        printTreeRecur(tree->head, min);
-    } else {
-        printf("WARNING : TREE IS NULL !\n");
-    }
 }
 
 int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *possibilities, int *min, t_stack *minStack, t_stack *currentStack, int numberOfMovement) {

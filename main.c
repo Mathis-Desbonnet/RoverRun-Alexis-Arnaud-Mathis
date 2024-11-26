@@ -126,7 +126,7 @@ int main(int argc, char* args[]) {
     t_stack minWayStack = createStack(7);
     t_stack currentStack = createStack(7);
     int moveProba[7] = {22, 15, 7, 7, 21, 21, 7};
-    Tree* wayTree = createTree(map.costs[robot->localisation.pos.y][robot->localisation.pos.x], robot->localisation, map, moveProba);
+    Tree* wayTree = createTree(map.costs[robot->localisation.pos.y][robot->localisation.pos.x], moveProba);
     if (map.soils[robot->localisation.pos.y][robot->localisation.pos.x] == 3%10) {
         addAllWayToTree(wayTree->head, robot->localisation, map, wayTree->head->possibilities, &min, &minWayStack, &currentStack, 4);
     } else {
@@ -155,7 +155,7 @@ int main(int argc, char* args[]) {
     while (running) {
         movementFunction(&map, robot, beginARound, &noMoveCounter, &minWayStack, &nextMove, &didAMovement);
         SDL_Event event;
-        didAMovement = keyboardEvent(robot, &nextMove, didAMovement, &event);
+        didAMovement = keyboardEvent(robot, &nextMove, didAMovement, &event, map);
         roverTexture = renderTexture(&map, renderer, &rectPosition, plaineTexture, ergTexture, regTexture, chasmTexture,
                                      baseTexture,
                                      roverUpRightTexture, roverUpLeftTexture, roverDownRightTexture,
@@ -175,8 +175,7 @@ int main(int argc, char* args[]) {
             printf("free memory\n");
             currentStack = createStack(7);
             minWayStack = createStack(7);
-            wayTree = createTree(map.costs[robot->localisation.pos.y][robot->localisation.pos.x], robot->localisation,
-                                 map, moveProba);
+            wayTree = createTree(map.costs[robot->localisation.pos.y][robot->localisation.pos.x], moveProba);
             printf("x :%d, y :%d, ori : %d\n", x, y, robot->localisation.ori);
             printf("0 -> NORD\n 1-> EST\n 2-> SUD\n 3 -> OUEST\n");
             if (map.soils[robot->localisation.pos.y][robot->localisation.pos.x] == 3 % 10) {

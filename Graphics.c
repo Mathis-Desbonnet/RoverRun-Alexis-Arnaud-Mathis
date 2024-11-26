@@ -20,6 +20,8 @@ int initSDL() {
 //    }
     return 1;
 }
+
+
 int loadBasicRoadSurface(SDL_Surface** basicRoadSurface) {
     basicRoadSurface[0] = IMG_Load("../src/img/plains.png");
     assert(basicRoadSurface[0] == NULL);
@@ -33,6 +35,7 @@ int loadBasicRoadSurface(SDL_Surface** basicRoadSurface) {
     assert(basicRoadSurface[4] == NULL);
     return 1;
 }
+
 
 void
 createTextureImage(SDL_Renderer *renderer, SDL_Surface *plainsSurface, SDL_Surface *ergSurface, SDL_Surface *regSurface,
@@ -84,6 +87,7 @@ createTextureImage(SDL_Renderer *renderer, SDL_Surface *plainsSurface, SDL_Surfa
     SDL_DestroySurface(hillUpRightSurface);
 }
 
+
 void freeMemory(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *plaineTexture, SDL_Texture *ergTexture,
                 SDL_Texture *regTexture, SDL_Texture *chasmTexture, SDL_Texture *baseTexture,
                 SDL_Texture *roverUpRightTexture, SDL_Texture *roverUpLeftTexture, SDL_Texture *roverDownRightTexture,
@@ -108,6 +112,7 @@ void freeMemory(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *plaineT
     SDL_DestroyTexture(roverDownLeftTexture);
     SDL_DestroyTexture(roverTexture);
 }
+
 
 SDL_Texture *renderTexture(t_map *map, SDL_Renderer *renderer, SDL_FRect *rectPosition, SDL_Texture *plaineTexture,
                            SDL_Texture *ergTexture, SDL_Texture *regTexture, SDL_Texture *chasmTexture,
@@ -257,10 +262,14 @@ int stopConditions(t_map *map, int noMoveCounter, const Robot *robot) {
         printf("YOU WIN !\n");
         running = 0;
     }
+    if ((*map).soils[robot->localisation.pos.y][robot->localisation.pos.x] == 4) {
+        printf("YOU DIED !\n");
+        running = 0;
+    }
     return running;
 }
 
-int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *event) {
+int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *event, t_map map) {
     int running;
     if (SDL_PollEvent(event) > 0) {
         switch ((*event).type) {
@@ -271,7 +280,7 @@ int keyboardEvent(Robot *robot, t_move *nextMove, int didAMovement, SDL_Event *e
                 if ((*event).key.key == SDLK_RIGHT) {
                     if (didAMovement) {
                         didAMovement = 0;
-                        if ((*nextMove) != NO_MOVE) {
+                        if ((*nextMove) != NO_MOVE && isValidLocalisation((translate(robot->localisation, *nextMove)).pos, map.x_max, map.y_max)) {
                             robot->localisation = move(robot->localisation, (*nextMove));
                         }
                     }

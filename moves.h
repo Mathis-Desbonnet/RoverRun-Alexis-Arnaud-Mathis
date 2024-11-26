@@ -38,7 +38,7 @@ t_move generateMove(int moveProba[7]);
  * @param move : the move to convert
  * @return the string corresponding to the move
  */
-char *getMoveAsString(t_move move);
+char *getMoveAsString(t_move );
 
 /**
  * @brief function to update the localisation of the robot according to a move
@@ -72,6 +72,13 @@ t_orientation rotate(t_orientation, t_move );
  */
 t_localisation translate(t_localisation , t_move);
 
-t_move* createTabWithoutCurrentValue(t_move* possibilities, int currentValueIndex, int numberPossibilities);
+/**
+ * @brief Create a new array of possibilities withou the current one
+ * @param possibilities : the current array of possibilities
+ * @param currentValueIndex : the position of the current move in the array of possibilities
+ * @param numberPossibilities : size of current possibilities array
+ * @return a new array of possibilities
+ */
+t_move* createTabWithoutCurrentValue(t_move* , int , int );
 
 #endif //MOVES_H
