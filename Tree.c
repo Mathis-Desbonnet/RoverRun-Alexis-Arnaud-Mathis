@@ -4,7 +4,7 @@
 
 #include "Tree.h"
 
-Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map, int moveProba[7]) {
+Tree* createTree(int valueRobotPos, int moveProba[7]) {
     Tree* newTree = (Tree*) malloc(sizeof(Tree));
     newTree->head = createNode(valueRobotPos, NULL, -1, moveProba);
     newTree->head->totalValue = valueRobotPos;

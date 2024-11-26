@@ -8,6 +8,9 @@
 #include <stdlib.h>
 #include "moves.h"
 
+/**
+ * @brief Node used to create the tree storing each road available.
+ */
 typedef struct node {
     int value;
     int depth;
@@ -19,6 +22,9 @@ typedef struct node {
     int choice;
 } Node;
 
+/**
+ * @brief Creates a node, initializes it and stores available choices
+ */
 Node* createNode(int valueRobotPos, t_move* possibilities, int choice, int moveProba[7]);
 
 #endif //ROVERRUN_NODE_H

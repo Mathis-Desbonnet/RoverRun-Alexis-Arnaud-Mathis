@@ -11,11 +11,19 @@
 #include "stack.h"
 #include <stdio.h>
 
+/**
+ * @brief The tree storing each road alvailable
+ */
 typedef struct tree {
     Node* head;
 } Tree;
 
-Tree* createTree(int valueRobotPos, t_localisation robotPos, t_map map, int moveProba[7]);
+/**
+ * @brief Creates and Initializes the tree from the position of the robot
+ * @param valueRobotPos : the case where the robot is currently placed
+ * @param moveProba : Probability of each movement being drawn
+ */
+Tree* createTree(int valueRobotPos, int moveProba[7]);
 void printTree(Tree* tree, int min);
 void printTreeRecur(Node *node, int min);
 int addAllWayToTree(Node *head, t_localisation robotPos, t_map map, t_move *possibilities, int *min, t_stack *minStack, t_stack *currentStack, int numberOfMovement);

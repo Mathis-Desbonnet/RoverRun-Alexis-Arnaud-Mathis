@@ -47,8 +47,17 @@ int pop(t_stack *);
  */
 int top(t_stack);
 
+/**
+ * @brief Function to display the stack
+ * @param stack : the stack
+ */
 void printStack(t_stack);
 
+/**
+ * @brief Function to copy the stack to another one
+ * @param src : the source stack
+ * @param dest : the destination stack
+ */
 void copyStack(t_stack src, t_stack* dest);
 
 #endif //STACK_H
